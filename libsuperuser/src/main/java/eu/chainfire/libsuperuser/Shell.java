@@ -275,6 +275,7 @@ public class Shell {
         private static String[] suVersion = new String[] {
                 null, null
         };
+        private static boolean wasAvailable = false;
 
         /**
          * Runs command as root (if available) and return output
@@ -320,9 +321,14 @@ public class Shell {
          */
         public static boolean available() {
             // this is only one of many ways this can be done
-
+            if (wasAvailable) {
+                return true;
+            }
             List<String> ret = run(Shell.availableTestCommands);
-            return Shell.parseAvailableResult(ret, true);
+
+            wasAvailable = Shell.parseAvailableResult(ret, true);
+
+            return wasAvailable;
         }
 
         /**
